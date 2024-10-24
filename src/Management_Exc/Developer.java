@@ -13,23 +13,35 @@ public class Developer extends Employee {
     }
 
     /**
-     * TODO the implementation
-     * @param projectManager to be added as project manager
-     * @throws IllegalStateException when this developer already has a project manager
+     * Sets the project manager for this developer.
+     *
+     * @param projectManager the manager to be assigned
+     * @throws IllegalStateException if the developer already has a manager
      */
-    protected void setProjectManager(Manager projectManager) throws IllegalStateException{
-
+    protected void setProjectManager(Manager projectManager) throws IllegalStateException {
+        if (this.projectManager != null) {
+            throw new IllegalStateException(getName() + " already has a manager: "
+                    + this.projectManager.getName());
+        }
+        this.projectManager = projectManager;
     }
 
+    /**
+     * Removes the current project manager.
+     */
     public void removePM() {
         projectManager = null;
     }
 
+    /**
+     * On the developer's birthday, if a project manager exists, give the developer a 5% raise.
+     */
     @Override
     public void birthday() {
-        super.birthday();
+        super.birthday(); // Call Employee's birthday to handle age increment
         if (projectManager != null) {
-            projectManager.giveRaise(this, this.getSalary()*0.05);
+            double raise = this.getSalary() * 0.05;
+            projectManager.giveRaise(this, raise);
         }
     }
 
